@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 RSpec.describe Jails do
-  it "has a version number" do
-    expect(Jails::VERSION).not_to be nil
-  end
+  describe '#call' do
+    env = {
+      "PATH_INFO" => "/",
+      "QUERY_STRING" => ""
+    }
 
-  it "does something useful" do
-    expect(false).to eq(true)
+    it 'returns a 200 http status code' do
+      expect(Jails::App.new.call(env)[0]).to eq 200
+    end
   end
 end
