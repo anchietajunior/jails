@@ -2,6 +2,29 @@
 
 require_relative "jails/version"
 
+# Now is time to create
+# some models
+class FileModel
+  require "json"
+
+  def initialize(fnd)
+    @fn = fnd
+    cont = File.read fnd
+    @hash = JSON.parse cont
+  end
+
+  def [](field)
+    @hash[field.to_s]
+  end
+
+  def self.find(id)
+    new "data/#{id}.json"
+  rescue StandardError => e
+    puts e
+    nil
+  end
+end
+
 # This is the main module of this application
 # where the App and Controller classes
 # are created.
@@ -50,6 +73,8 @@ module Jails
     end
   end
 
+  require "erb"
+
   # Creating a new Controller class to handle
   # requests with some metaprogramming
   class Controller
@@ -57,6 +82,20 @@ module Jails
 
     def initialize(env)
       @env = env
+    end
+
+    def request
+      @request ||= Rack::Request.new @env
+    end
+
+    def params
+      request.params
+    end
+
+    def render(name, bin = binding())
+      template = "app/views/#{name}.html.erb"
+      e = ERB.new(File.read(template))
+      e.result(bin)
     end
   end
 end
