@@ -2,13 +2,13 @@
 
 RSpec.describe Jails do
   describe "#call" do
-    class TedController < Jails::Controller
-      def think
-        "Whoah, man..."
-      end
-    end
-
     it "returns a 200 http status code" do
+      class TedController < Jails::Controller
+        def think
+          "Whoah, man..."
+        end
+      end
+
       e = {
         "PATH_INFO" => "/ted/think",
         "QUERY_STRING" => ""
