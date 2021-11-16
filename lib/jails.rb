@@ -3,6 +3,13 @@
 require_relative "jails/version"
 
 module Jails
-  class Error < StandardError; end
-  # Your code goes here...
+  class App
+    def call(env) # Like proc#call
+      [
+        200,
+        { 'Content-Type' => 'text/html' },
+        [ "Hello from Jails!" ]
+      ]
+    end
+  end
 end
