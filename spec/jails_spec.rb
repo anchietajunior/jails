@@ -2,13 +2,19 @@
 
 RSpec.describe Jails do
   describe "#call" do
-    env = {
-      "PATH_INFO" => "/",
-      "QUERY_STRING" => ""
-    }
+    class TedController < Jails::Controller
+      def think
+        "Whoah, man..."
+      end
+    end
 
     it "returns a 200 http status code" do
-      expect(Jails::App.new.call(env)[0]).to eq 200
+      e = {
+        "PATH_INFO" => "/ted/think",
+        "QUERY_STRING" => ""
+      }
+
+      expect(::Jails::App.new.call(e)[0]).to eq 200
     end
   end
 end
